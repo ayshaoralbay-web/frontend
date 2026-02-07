@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Card</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+
+      }
+
+      .box {
+        margin-top: 20px;
+        font-size: small;
+        border-left: 5px solid hsl(180, 29%, 50%);
+        background-color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-radius: 6px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .box img {
+        width: 40px;
+      }
+
+      .toge {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .first span {
+        margin-right: 8px;
+        font-weight: 600;
+      }
+
+      .sp1 {
+        background-color: hsl(180, 29%, 50%);
+        color: white;
+        border-radius: 12px;
+        padding: 3px 8px;
+        font-size: 10px;
+      }
+
+      .sp2 {
+        background-color: black;
+        color: white;
+        border-radius: 12px;
+        padding: 3px 8px;
+        font-size: 10px;
+      }
+
+      .second {
+        font-size: medium;
+        font-weight: 700;
+        display: flex;
+        gap: 6px;
+        margin: 6px 0;
+        cursor: pointer;
+      }
+
+      .third {
+        color: gray;
+        display: flex;
+        gap: 10px;
+        font-size: 12px;
+      }
+
+      .end {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .end span {
+        background-color: hsl(180, 52%, 96%);
+        color: hsl(180, 29%, 50%);
+        font-weight: 600;
+        font-size: 11px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .top {
+        background-image: url(images/bg-header-desktop.svg);
+        background-repeat: no-repeat;
+        height: 300px;
+        margin-top: 30px;
+        posi
+      }
+      button {
+        margin-left: 650px;
+        margin-top: 70px;
+        width: 100px;
+        height: 30px;
+        background-color: hsl(180, 29%, 50%);
+        border: none;
+        border-radius: 10px;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="top">
+      <button class="click">Click me!</button>
+    </div>
+    <div class="container"></div>
+  </body>
+  <script>
+    const btn = document.querySelector(".click");
+    const container = document.querySelector(".container");
+    const URL = "./data.json";
+
+    async function addNewDog() {
+      const promise = await fetch(URL);
+      const data = await promise.json();
+      for (let i = 0; i < data.length; i++) {
+        const desserInfo = document.createElement("div");
+        desserInfo.innerHTML = `<div class="box">
+        <div class="medium">
+          <div class="toge">
+            <img src="${data[i].logo}" alt="Photosnap" />
+
+            <div>
+              <div class="first">
+                <span>${data[i].company}</span>
+                <span class="sp1">NEW</span>
+                <span class="sp2">FEATURED</span>
+              </div>
+
+              <div class="second">
+              <p> ${data[i].position}
+                </p>
+              </div>
+
+              <div class="third">
+               <p>${data[i].postedAt} * ${data[i].contract}* ${data[i].location}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="end">
+         <p> ${data[i].postedAt} </p>
+        </div>
+      </div> `;
+        if (data[i].new == false) {
+          desserInfo.querySelector(".sp1").remove();
+        } else {
+          desserInfo.querySelector(".sp1").textContent = "NEW";
+        }
+        if (data[i].new == false) {
+          desserInfo.querySelector(".sp2").remove();
+        } else {
+          desserInfo.querySelector(".sp2").textContent = "FEATURED";
+        }
+
+        container.appendChild(desserInfo);
+      }
+    }
+    btn.addEventListener("click", addNewDog);
+  </script>
+</html>
